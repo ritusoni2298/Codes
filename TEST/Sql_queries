@@ -1,0 +1,59 @@
+drop database if exists ritu; 
+create database ritu;
+use ritu;
+create table Department(
+dept_id int,
+dept_name varchar(200),
+Primary Key(dept_id)
+);
+
+CREATE TABLE Employee(
+empid int not null,
+empname varchar(200),
+salary int,
+dept_id int,
+manager_id int,
+phone varchar(30),
+PRIMARY KEY(empid),
+FOREIGN KEY(dept_id) references Department(dept_id)
+);
+
+insert into Department(dept_id,dept_name)
+values(1,'training'),(2,'engg');
+
+INSERT INTO Employee(empid,empname,salary,dept_id,manager_id,phone)
+VALUES(1,'yashika',300000,1,1,'01234567'),
+(2,'ravi',400000,1,2,'1234567'),
+(3,'ravi1',400012,1,1,'1234567'),
+(4,'riyaz',900000,2,1,'1234567234'),
+(5,'rishabh',800000,2,2,'1234567'),
+(6,'ritu',200000,1,1,'12345678');
+
+1.
+SELECT Employee.empname, Department.dept_id
+FROM Employee
+inner join Department on Employee.dept_id=Department.dept_id
+where Employee.dept_id=1 or Employee.dept_id=2 or Employee.dept_id=3;
+
+
+
+2.
+select Employee.empid, (((Employee.salary/30)*40)/100) as 'Basic pay'
+from Employee
+
+3.
+select Employee.empname
+from Employee
+where Employee.empid%2=0;
+
+4.
+select Employee.dept_id, avg(Employee.salary) as 'avgsalary'
+from Employee
+group by Employee.dept_id
+
+5.
+SELECT Employee.dept_id, Max(Employee.salary) 
+FROM Employee
+WHERE Employee.salary NOT IN ( SELECT Max(Employee.salary) FROM Employee)
+group by Employee.dept_id;
+
